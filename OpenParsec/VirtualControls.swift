@@ -1,4 +1,5 @@
 import SwiftUI
+import ParsecSDK
 
 // On-screen mouse-button row (L/M/R + side buttons) and virtual gamepad.
 // Ported in spirit from the Android fork's MouseButtonRow / VirtualGamepad.
