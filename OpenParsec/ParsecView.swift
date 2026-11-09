@@ -202,6 +202,8 @@ struct ParsecView: View {
 	@AppStorage("menuSwipeHintShown") var menuSwipeHintShown: Bool = false
 
 	@State var showKeyboard: Bool = false
+	@AppStorage("showMouseRow") var showMouseRow: Bool = false
+	@AppStorage("showVirtualGamepad") var showVirtualGamepad: Bool = false
 	@State var zoomEnabled: Bool = false
 	@Environment(\.verticalSizeClass) var verticalSizeClass
 
@@ -254,6 +256,9 @@ struct ParsecView: View {
 			UIViewControllerWrapper(self.parsecViewController)
 				.zIndex(1)
 				.prefersPersistentSystemOverlaysHidden()
+
+			if showMouseRow { MouseButtonRow().zIndex(2) }
+			if showVirtualGamepad { VirtualGamepad().zIndex(2) }
 
 			ParsecStatusBar(showMenu: $showMenu, showDCAlert: $showDCAlert, DCAlertText: $DCAlertText, parsecViewController: parsecViewController, isReconnecting: $isReconnecting, connectionLost: $connectionLost, onSilentDisconnect: { disconnect() })
 
@@ -495,6 +500,18 @@ struct ParsecView: View {
 					}
 					Button(action: toggleTouchMode) {
 						Text("Touch Mode: \(settingsStore.cursorMode == .direct ? "Direct" : "Touchpad")")
+							.padding(8)
+							.frame(maxWidth: .infinity)
+							.multilineTextAlignment(.center)
+					}
+					Button(action: { showMouseRow.toggle() }) {
+						Text("Mouse Buttons: \(showMouseRow ? "ON" : "OFF")")
+							.padding(8)
+							.frame(maxWidth: .infinity)
+							.multilineTextAlignment(.center)
+					}
+					Button(action: { showVirtualGamepad.toggle() }) {
+						Text("Virtual Gamepad: \(showVirtualGamepad ? "ON" : "OFF")")
 							.padding(8)
 							.frame(maxWidth: .infinity)
 							.multilineTextAlignment(.center)
